@@ -1,0 +1,25 @@
+  </article>
+
+  <script>
+    // ---- Theme toggle: default to OS, allow persistent manual override ----
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved) root.dataset.theme = saved;
+
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const isDark = root.dataset.theme === 'dark' ||
+        (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+      root.dataset.theme = isDark ? 'light' : 'dark';
+      localStorage.setItem('theme', root.dataset.theme);
+    });
+
+    // ---- Reading-progress bar ----
+    addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+      document.querySelector('.progress')?.style.setProperty('--p', p);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

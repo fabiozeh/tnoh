@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech&amp;+&#128100;</title>
+  <link rel="stylesheet" href="../prose.css">
+  <style>
+    .toolbar {
+      position: fixed;
+      top: 1rem; right: 1rem;
+      z-index: 20;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .toolbar button {
+      font: inherit;
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      box-shadow: var(--shadow);
+      transition: background var(--transition), color var(--transition);
+    }
+    .toolbar button:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <button id="themeBtn" type="button">◐ Theme</button>
+  </div>
+
+  <article class="prose">
+    <div class="progress"></div>
