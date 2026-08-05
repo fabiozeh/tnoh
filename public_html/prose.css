@@ -1,0 +1,485 @@
+/* ============================================================================
+   prose.css — a stylesheet for long-form blog posts
+   ----------------------------------------------------------------------------
+   Goals: modern look, comfortable distraction-free reading, light/dark mode
+   with soft colors, and a small amount of personality — without bloat.
+
+   HOW IT'S ORGANIZED
+     1. Design tokens (custom properties)  — change these to re-skin everything
+     2. Light / dark themes                 — soft palettes + toggle logic
+     3. Base & reset                        — sensible document defaults
+     4. Layout                              — the reading measure/column
+     5. Typography                          — headings, paragraphs, rhythm
+     6. Flow elements                       — links, lists, quotes, code, media
+     7. Extras                              — the "touch of originality" bits
+
+   USAGE
+     <link rel="stylesheet" href="prose.css">
+     Wrap post content in <article class="prose"> … </article>.
+     Everything is scoped under .prose so it won't fight your site chrome.
+
+   THEME SWITCHING
+     Default follows the OS setting (prefers-color-scheme).
+     To let users override, set data-theme="light" or "dark" on <html>.
+     A ready-to-paste 6-line JS toggle is at the bottom of this file.
+   ========================================================================== */
+
+
+/* 1. DESIGN TOKENS ==========================================================
+   Non-color values live here so spacing/type scale stays consistent and is
+   tunable from one place. Colors are defined per-theme in section 2.
+
+   The type scale is a "major third" (×1.25) ratio — enough contrast between
+   heading levels to feel structured, gentle enough to stay calm. Sizes use
+   clamp() so they scale with the viewport without media queries.               */
+
+:root {
+  /* Fonts — system stacks: zero network cost, native feel on every OS.
+     Swap the first entry for a webfont (e.g. "Inter", "Newsreader") if wanted. */
+  --font-body: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --font-head: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+
+  /* Measure — the column width. 65ch keeps lines at ~66 characters, the
+     classic sweet spot for reading comfort (the eye tires past ~75).           */
+  --measure: 65ch;
+  --gutter: clamp(1.25rem, 5vw, 2.5rem);   /* side padding on small screens     */
+
+  /* Type scale (fluid). --step-0 is body text; steps climb by ~1.25×.          */
+  --step-0:  clamp(1.05rem, 0.98rem + 0.35vw, 1.2rem);   /* body                */
+  --step-1:  clamp(1.31rem, 1.2rem + 0.5vw, 1.5rem);     /* h4 / lead           */
+  --step-2:  clamp(1.64rem, 1.45rem + 0.9vw, 1.95rem);   /* h3                  */
+  --step-3:  clamp(2.05rem, 1.75rem + 1.5vw, 2.6rem);    /* h2                  */
+  --step-4:  clamp(2.56rem, 2.05rem + 2.5vw, 3.5rem);    /* h1                  */
+
+  /* Vertical rhythm — one unit ≈ one line of body text. Compose spacing from
+     this so the whole page shares a consistent beat.                           */
+  --rhythm: 1.7rem;
+
+  --radius: 0.5rem;                         /* rounded corners on blocks         */
+  --transition: 0.25s ease;                 /* theme + hover easing              */
+}
+
+
+/* 2. THEMES =================================================================
+   Two soft palettes. Neither uses pure black or pure white — high-contrast
+   #000-on-#fff causes halation and eye strain over long reads. Instead:
+     • light: warm off-white paper, ink-blue-black text
+     • dark:  desaturated blue-charcoal, dimmed off-white text
+   The accent is a muted teal in both, nudged for contrast per theme.
+
+   We define light values as the default, then override for dark via BOTH
+   prefers-color-scheme (automatic) and [data-theme="dark"] (manual override).
+   Keeping tokens identical in name means the rest of the file never branches.  */
+
+:root,
+:root[data-theme="light"] {
+  --bg:        #f7f4ef;   /* page — warm paper                                  */
+  --surface:   #fffdf9;   /* raised blocks (code, quotes)                       */
+  --text:      #2b2b32;   /* body ink — soft near-black                         */
+  --text-soft: #5c5c68;   /* captions, meta, muted                             */
+  --heading:   #1c1c22;   /* slightly darker than body for weight              */
+  --accent:    #0f8a80;   /* links & marks — muted teal                        */
+  --accent-2:  #b4552d;   /* rare secondary accent (drop cap, marker)          */
+  --border:    #e4ddd2;   /* hairlines & rules                                 */
+  --shadow:    0 1px 2px rgba(40, 30, 20, 0.05), 0 6px 24px rgba(40, 30, 20, 0.04);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #16181d;
+    --surface:   #1e2128;
+    --text:      #cdd0d8;
+    --text-soft: #8b909c;
+    --heading:   #eceef3;
+    --accent:    #4fd1c5;   /* brighter teal — dark bg needs more luminance     */
+    --accent-2:  #e08a5f;
+    --border:    #2c303a;
+    --shadow:    0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 30px rgba(0, 0, 0, 0.25);
+    color-scheme: dark;
+  }
+}
+
+/* Manual override wins over the OS preference. Same values as the media block. */
+:root[data-theme="dark"] {
+  --bg:        #16181d;
+  --surface:   #1e2128;
+  --text:      #cdd0d8;
+  --text-soft: #8b909c;
+  --heading:   #eceef3;
+  --accent:    #4fd1c5;
+  --accent-2:  #e08a5f;
+  --border:    #2c303a;
+  --shadow:    0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 30px rgba(0, 0, 0, 0.25);
+  color-scheme: dark;
+}
+
+
+/* 3. BASE & RESET ===========================================================
+   Minimal, targeted reset — just the defaults that get in the way.             */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* Enable smooth-but-respectful scrolling and keep font sizing predictable.   */
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.7;               /* generous leading = the core of readability */
+  /* Smooth the theme swap so a toggle doesn't flash harshly.                    */
+  transition: background var(--transition), color var(--transition);
+  /* Better kerning/ligatures for serif body copy.                              */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Respect users who ask for less motion — disable smooth scroll & transitions. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+
+/* 4. LAYOUT =================================================================
+   A single centered reading column. We use a grid trick so full-bleed elements
+   (wide images, code) can "break out" of the measure while text stays narrow.
+
+   Columns:  [gutter] [ centered measure ] [gutter]
+   Children default to the center track; add .bleed to span edge-to-edge.        */
+
+.prose {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(var(--gutter), 1fr)
+    [main-start] minmax(0, var(--measure)) [main-end]
+    minmax(var(--gutter), 1fr) [full-end];
+  padding-block: clamp(2.5rem, 8vw, 5rem);
+}
+
+/* Everything flows into the readable center track by default.                  */
+.prose > * {
+  grid-column: main;
+}
+
+/* Opt-in full-bleed: figures, big code samples, callouts.                      */
+.prose > .bleed {
+  grid-column: full;
+  width: 100%;
+}
+
+/* A middle ground — slightly wider than text, for images that want room.       */
+.prose > .wide {
+  grid-column: full;
+  width: min(100%, calc(var(--measure) + 12rem));
+  margin-inline: auto;
+}
+
+
+/* 5. TYPOGRAPHY =============================================================
+   Headings use the sans stack to contrast the serif body — a clean, modern
+   editorial pairing. Tight leading + letter-spacing gives them authority.
+   Margins follow the "space before" convention so sections breathe.            */
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  font-family: var(--font-head);
+  color: var(--heading);
+  line-height: 1.15;
+  letter-spacing: -0.02em;         /* sans headings tighten up nicely           */
+  font-weight: 650;
+  text-wrap: balance;              /* avoid lonely last words in a heading      */
+  margin: calc(var(--rhythm) * 2) 0 var(--rhythm);
+}
+
+.prose h1 { font-size: var(--step-4); margin-top: 0; }
+
+/* Subtitle / deck — the line that sits directly beneath the title. It belongs
+   to the title block, so we pull it up tight against the h1 (cancelling the
+   h1's bottom margin) and give it its own space below. Lighter weight and a
+   softer color mark it as secondary to the headline without competing with the
+   .lead intro paragraph further down. Serif italic keeps it feeling literary;
+   switch to var(--font-head) with normal style for a cleaner, magazine look.   */
+.prose .subtitle {
+  font-size: var(--step-2);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--text-soft);
+  text-wrap: balance;
+  margin: calc(var(--rhythm) * -0.75) 0 var(--rhythm);
+}
+/* A subtitle immediately followed by the .meta line shouldn't double the gap.  */
+.prose .subtitle + .meta { margin-top: calc(var(--rhythm) * -0.5); }
+.prose h2 { font-size: var(--step-3); }
+.prose h3 { font-size: var(--step-2); }
+.prose h4 { font-size: var(--step-1); font-weight: 600; }
+
+/* Paragraphs and most flow content share one bottom margin for even rhythm.    */
+.prose p,
+.prose ul,
+.prose ol,
+.prose blockquote,
+.prose pre,
+.prose figure,
+.prose table {
+  margin: 0 0 var(--rhythm);
+}
+
+/* text-wrap: pretty tidies orphans/rivers in body copy (progressive, ignored
+   where unsupported).                                                          */
+.prose p { text-wrap: pretty; }
+
+/* A ".lead" intro paragraph — larger, softer, sets the tone under the title.   */
+.prose .lead {
+  font-size: var(--step-1);
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+/* Post metadata line (date/author/reading time) under the h1.                  */
+.prose .meta {
+  font-family: var(--font-head);
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  color: var(--text-soft);
+  margin-top: calc(var(--rhythm) * -0.5);
+}
+
+
+/* 6. FLOW ELEMENTS ==========================================================  */
+
+/* Links — underlined for accessibility, but with a soft custom underline that
+   sits below the text and thickens on hover. Reads as a link, feels refined.   */
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  transition: text-decoration-color var(--transition), color var(--transition);
+}
+.prose a:hover {
+  text-decoration-color: var(--accent);
+}
+/* Visible keyboard focus — never remove this; it's how keyboard users navigate.*/
+.prose a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Emphasis */
+.prose strong { color: var(--heading); font-weight: 650; }
+.prose em     { font-style: italic; }
+
+/* <mark> highlight tinted with the accent instead of harsh yellow.             */
+.prose mark {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: inherit;
+  padding: 0.05em 0.2em;
+  border-radius: 3px;
+}
+
+/* Lists — comfortable indent, breathing room between items.                    */
+.prose ul, .prose ol { padding-left: 1.4em; }
+.prose li { margin-bottom: calc(var(--rhythm) * 0.4); }
+.prose li::marker { color: var(--accent); }   /* subtle colored bullets/numbers */
+
+/* Nested lists shouldn't carry the full paragraph gap.                         */
+.prose li > ul, .prose li > ol { margin: calc(var(--rhythm) * 0.4) 0 0; }
+
+/* Blockquotes — a colored side-rule rather than a heavy box. Calm, editorial.  */
+.prose blockquote {
+  padding: 0.2rem 0 0.2rem 1.4rem;
+  border-left: 3px solid var(--accent);
+  color: var(--text-soft);
+  font-style: italic;
+}
+.prose blockquote p:last-child { margin-bottom: 0; }
+/* Attribution line: <blockquote>…<cite>— Name</cite></blockquote>             */
+.prose cite {
+  display: block;
+  margin-top: 0.6rem;
+  font-style: normal;
+  font-size: 0.9rem;
+  font-family: var(--font-head);
+  color: var(--text-soft);
+}
+
+/* Inline code */
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  padding: 0.12em 0.38em;
+  border-radius: 4px;
+}
+
+/* Code blocks — raised surface, soft border, horizontal scroll (never wrap).   */
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.3rem;
+  overflow-x: auto;              /* long lines scroll instead of breaking layout */
+  box-shadow: var(--shadow);
+}
+/* Reset inline-code styling inside blocks so the two don't stack.              */
+.prose pre code { background: none; padding: 0; font-size: inherit; }
+
+/* Images & figures — never overflow, rounded, with muted captions.            */
+.prose img,
+.prose video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+}
+.prose figure { margin-inline: 0; }
+.prose figcaption {
+  margin-top: 0.7rem;
+  font-family: var(--font-head);
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  text-align: center;
+}
+
+/* Horizontal rule — not a line but three centered dots (an asterism), a classic
+   typographic section break. Part of the "touch of originality."              */
+.prose hr {
+  border: 0;
+  margin: calc(var(--rhythm) * 2.5) 0;
+  text-align: center;
+}
+.prose hr::before {
+  content: "* * *";
+  letter-spacing: 0.6em;
+  color: var(--text-soft);
+  font-size: 1.1rem;
+}
+
+/* Tables — light, borderless-ish, generous cell padding.                       */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  font-family: var(--font-head);
+}
+.prose th, .prose td {
+  text-align: left;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+.prose th { color: var(--heading); font-weight: 600; }
+.prose tbody tr:last-child td { border-bottom: 0; }
+
+
+/* 7. EXTRAS — the touch of originality ======================================
+   Small, opt-in flourishes. None are required; each is one class or element.   */
+
+/* (a) Drop cap on the first paragraph after the title. Add class="dropcap" to
+   that <p>, or it applies automatically to the first .lead-less paragraph.
+   Uses initial-letter where supported, with a float fallback.                  */
+.prose .dropcap::first-letter,
+.prose > p.first::first-letter {
+  -webkit-initial-letter: 3;
+  initial-letter: 3;                 /* sinks ~3 lines where supported          */
+  font-family: var(--font-head);
+  font-weight: 700;
+  color: var(--accent-2);
+  margin-right: 0.08em;
+}
+/* Fallback for browsers without initial-letter: a big floated cap.             */
+@supports not (initial-letter: 3) {
+  .prose .dropcap::first-letter,
+  .prose > p.first::first-letter {
+    float: left;
+    font-size: 3.4em;
+    line-height: 0.8;
+    padding: 0.05em 0.1em 0 0;
+  }
+}
+
+/* (b) Aside / margin note — a soft callout that sits inline but reads apart.
+   <aside class="note"> … </aside>                                             */
+.prose aside.note {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin: var(--rhythm) 0;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  box-shadow: var(--shadow);
+}
+.prose aside.note :last-child { margin-bottom: 0; }
+
+/* (c) Section anchors — hovering a heading reveals a subtle "#" link. Give the
+   heading an id and wrap content in <a class="anchor">. Purely optional.       */
+.prose :is(h2, h3) .anchor {
+  opacity: 0;
+  margin-left: 0.4em;
+  color: var(--text-soft);
+  text-decoration: none;
+  transition: opacity var(--transition);
+}
+.prose :is(h2, h3):hover .anchor { opacity: 1; }
+
+/* (d) Selection color — a small brand moment most sites forget.                */
+.prose ::selection {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* (e) Reading-progress accent bar. Optional: add <div class="progress"></div>
+   as the first child of .prose and drive its --p (0–1) from scroll JS below.   */
+.prose .progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 100%;
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+  background: var(--accent);
+  z-index: 10;
+}
+
+
+/* ============================================================================
+   OPTIONAL JS SNIPPETS (copy into your page; not needed for basic use)
+   ----------------------------------------------------------------------------
+   Theme toggle — persists choice, defaults to OS preference:
+
+     const root = document.documentElement;
+     const saved = localStorage.getItem('theme');
+     if (saved) root.dataset.theme = saved;
+     function toggleTheme() {
+       const next = (root.dataset.theme === 'dark' ||
+         (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches))
+         ? 'light' : 'dark';
+       root.dataset.theme = next;
+       localStorage.setItem('theme', next);
+     }
+     // wire toggleTheme() to a button's click handler.
+
+   Reading progress bar (drives .progress above):
+
+     addEventListener('scroll', () => {
+       const h = document.documentElement;
+       const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+       document.querySelector('.progress')?.style.setProperty('--p', p);
+     }, { passive: true });
+   ========================================================================== */

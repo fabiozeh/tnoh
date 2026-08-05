@@ -1,0 +1,26 @@
+body {
+    background-color: WhiteSmoke;
+}
+
+h1 {
+
+}
+
+p {
+
+}
+
+.main {
+    margin: 30pt 150pt;
+}
+
+.highlights {
+    padding: 12pt;
+    /*background-color: #eeeef0;*/
+    border-width: 0pt 0pt 4pt 0.5pt;
+    border-style: solid;
+    border-color: LightSlateGrey;
+    border-radius: 5pt;
+    font-family: Tahoma;
+    margin-bottom: 10pt;
+}

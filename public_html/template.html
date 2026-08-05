@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>prose.css sampler — The Quiet Craft of Reading</title>
+  <link rel="stylesheet" href="prose.css">
+  <style>
+    /* Page-only chrome for the sampler — NOT part of prose.css.
+       Just enough to position the theme toggle button. */
+    .toolbar {
+      position: fixed;
+      top: 1rem; right: 1rem;
+      z-index: 20;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .toolbar button {
+      font: inherit;
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      box-shadow: var(--shadow);
+      transition: background var(--transition), color var(--transition);
+    }
+    .toolbar button:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <button id="themeBtn" type="button">◐ Theme</button>
+  </div>
+
+  <article class="prose">
+    <div class="progress"></div>
+
+    <h1></h1>
+    <p class="meta">F&aacute;bio Jos&eacute; · July, 2026</p>
+
+    <p class="lead"></p>
+    <p class="first"></p>
+
+  </article>
+
+  <script>
+    // ---- Theme toggle: default to OS, allow persistent manual override ----
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved) root.dataset.theme = saved;
+
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const isDark = root.dataset.theme === 'dark' ||
+        (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+      root.dataset.theme = isDark ? 'light' : 'dark';
+      localStorage.setItem('theme', root.dataset.theme);
+    });
+
+    // ---- Reading-progress bar ----
+    addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+      document.querySelector('.progress')?.style.setProperty('--p', p);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

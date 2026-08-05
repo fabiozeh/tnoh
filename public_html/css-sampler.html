@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>prose.css sampler — The Quiet Craft of Reading</title>
+  <link rel="stylesheet" href="prose.css">
+  <style>
+    /* Page-only chrome for the sampler — NOT part of prose.css.
+       Just enough to position the theme toggle button. */
+    .toolbar {
+      position: fixed;
+      top: 1rem; right: 1rem;
+      z-index: 20;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .toolbar button {
+      font: inherit;
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      box-shadow: var(--shadow);
+      transition: background var(--transition), color var(--transition);
+    }
+    .toolbar button:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <button id="themeBtn" type="button">◐ Theme</button>
+  </div>
+
+  <article class="prose">
+    <!-- Reading-progress bar (driven by JS at the bottom) -->
+    <div class="progress"></div>
+
+    <h1>The Quiet Craft of Reading</h1>
+    <p class="subtitle">On measure, leading, and the art of getting out of the way</p>
+    <p class="meta">By A. Typographer · July 9, 2026 · 6 min read</p>
+
+    <p class="lead">
+      Good typography is invisible. You notice a great meal, a great song — but
+      the best-set page simply disappears, leaving nothing between you and the
+      words. This sampler exercises every element the stylesheet touches.
+    </p>
+
+    <p class="first">
+      Reading is older than paper and far older than the screen, yet the screen
+      has spent decades being hostile to it. We crammed text edge to edge, lit it
+      with pure white light, and wondered why nobody finished the article. The
+      fix is not clever — it is mostly restraint: a narrow column, generous
+      leading, and colors that don't shout. This paragraph opens with a drop cap
+      to show the flourish in context.
+    </p>
+
+    <p>
+      Consider the humble <strong>line length</strong>. Set text too wide and the
+      eye loses its place on the return sweep; too narrow and it jerks along in
+      fits. Around sixty-six characters is the <em>comfortable</em> middle, and
+      it is why this column stops where it does. You can adjust it in one place —
+      the <code>--measure</code> token.
+    </p>
+
+    <h2>Structure and rhythm <a href="#structure" class="anchor" aria-label="Link to this section">#</a></h2>
+
+    <p>
+      Headings should feel like signposts, not billboards. Here the body is a
+      serif and the headings a sans, a pairing that has anchored editorial design
+      for a century. Below is a run of the elements you'll reach for most.
+    </p>
+
+    <h3>Lists keep their footing</h3>
+
+    <p>An unordered list, with subtly colored markers:</p>
+
+    <ul>
+      <li>Warm paper instead of pure white to reduce halation.</li>
+      <li>A single measure so lines never sprawl.
+        <ul>
+          <li>Nested items tuck in with a tighter gap.</li>
+          <li>Markers pick up the accent color.</li>
+        </ul>
+      </li>
+      <li>Vertical rhythm derived from one shared unit.</li>
+    </ul>
+
+    <p>And an ordered list, for steps that must happen in sequence:</p>
+
+    <ol>
+      <li>Choose your measure and leading.</li>
+      <li>Pick colors that are soft in both themes.</li>
+      <li>Stop adding things.</li>
+    </ol>
+
+    <h3>Quotation, with attribution</h3>
+
+    <blockquote>
+      <p>
+        The best interface is no interface; the best typography is the kind you
+        read straight through without ever seeing it.
+      </p>
+      <cite>— paraphrased from every design book ever</cite>
+    </blockquote>
+
+    <aside class="note">
+      <p>
+        <strong>Margin note.</strong> This is an <code>aside.note</code> — use it
+        for tangents, caveats, or definitions that would break the main flow if
+        left inline. It stays visually distinct without stealing focus.
+      </p>
+    </aside>
+
+    <h2>Code, inline and block</h2>
+
+    <p>
+      Inline snippets like <code>const answer = 42;</code> sit quietly in the
+      text. Longer samples get a raised surface and scroll horizontally rather
+      than wrapping and wrecking the rhythm:
+    </p>
+
+    <pre><code>/* Toggle the theme and remember the choice */
+function toggleTheme() {
+  const root = document.documentElement;
+  const dark = root.dataset.theme === 'dark';
+  root.dataset.theme = dark ? 'light' : 'dark';
+  localStorage.setItem('theme', root.dataset.theme);
+}</code></pre>
+
+    <h2>Media that breaks out</h2>
+
+    <p>
+      Body text stays in the narrow measure, but a figure can opt into more room
+      with <code>.wide</code>, or go edge-to-edge with <code>.bleed</code>. Here's
+      a <code>.wide</code> figure (an inline SVG so the sampler needs no assets):
+    </p>
+
+    <figure class="wide">
+      <svg viewBox="0 0 800 300" width="800" height="300" role="img"
+           aria-label="An abstract gradient banner" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--accent)"/>
+            <stop offset="1" stop-color="var(--accent-2)"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="300" fill="url(#g)" opacity="0.85"/>
+        <circle cx="620" cy="90" r="60" fill="var(--surface)" opacity="0.35"/>
+      </svg>
+      <figcaption>A <code>.wide</code> figure — wider than the text, still centered.</figcaption>
+    </figure>
+
+    <h2>Tables stay light</h2>
+
+    <table>
+      <thead>
+        <tr><th>Token</th><th>Purpose</th><th>Default</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>--measure</code></td><td>Column width</td><td>65ch</td></tr>
+        <tr><td><code>--rhythm</code></td><td>Vertical spacing unit</td><td>1.7rem</td></tr>
+        <tr><td><code>--accent</code></td><td>Links &amp; marks</td><td>muted teal</td></tr>
+      </tbody>
+    </table>
+
+    <h2>The small things</h2>
+
+    <p>
+      A few details most stylesheets forget: a tinted
+      <mark>highlight that uses the accent</mark> instead of highway yellow, a
+      considered <a href="#">link underline</a> that thickens on hover, and a
+      selection color — try dragging to select this sentence. Section breaks use
+      a centered asterism rather than a hard line:
+    </p>
+
+    <hr>
+
+    <p>
+      That's the whole kit. Flip between light and dark with the button in the
+      corner (it follows your OS by default and remembers your override), and
+      watch the progress bar at the very top track how far you've read.
+    </p>
+
+    <h4>A closing footnote-sized heading</h4>
+    <p>
+      Everything here is scoped under <code>.prose</code>, so it won't touch your
+      site's navigation, footer, or anything outside the article.
+    </p>
+
+  </article>
+
+  <script>
+    // ---- Theme toggle: default to OS, allow persistent manual override ----
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved) root.dataset.theme = saved;
+
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const isDark = root.dataset.theme === 'dark' ||
+        (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+      root.dataset.theme = isDark ? 'light' : 'dark';
+      localStorage.setItem('theme', root.dataset.theme);
+    });
+
+    // ---- Reading-progress bar ----
+    addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+      document.querySelector('.progress')?.style.setProperty('--p', p);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
