@@ -1,0 +1,13 @@
+# Capsule Backlog
+
+So you found my backlog. This is where I (pretend to) keep control of the topics and tasks to address in the future for this space. It should actually be called frontlog, because it kinda signals the things that are yet to come.
+
+* About the art
+* Why this site? in .gmi
+* smolify.cgi - the opposite of webloupe.cgi, possibly in AWK this time for the sake of my sanity
+* Fix the html home styling
+* Not the world's last blogger after all
+* AIisms and thinking out loud
+* About me
+* Codeberg repo + GNU stow
+* sharing dots

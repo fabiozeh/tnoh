@@ -1,28 +1,71 @@
 <title>A humble, long overdue, home page</title>
 <html>
     <head>
-        <link rel="stylesheet" href="base.css">
+        <link rel="stylesheet" href="prose.css">
         <meta name=keywords content="bbs, unix, free shell, shell account, free shell account, shell access, free account, netbsd, public access, unix system, dec alpha, arpa, vhost, free webhosting, free webhost, free irc sundays, SDF, Super Dimension Fortress, lisp, genera, eggdrop, bouncer, learn unix, unix training, minecraft, paintchat">
+          <style>
+            .toolbar {
+              position: fixed;
+              top: 1rem; right: 1rem;
+              z-index: 20;
+              display: flex;
+              gap: 0.5rem;
+            }
+            .toolbar button {
+              font: inherit;
+              font-family: var(--font-head);
+              font-size: 0.85rem;
+              cursor: pointer;
+              color: var(--text);
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: 999px;
+              padding: 0.4rem 0.9rem;
+              box-shadow: var(--shadow);
+              transition: background var(--transition), color var(--transition);
+            }
+            .toolbar button:hover { color: var(--accent); }
+          </style>
     </head>
     <body>
-        <div style="margin:80pt 150pt 60pt">
-            Welcome! I'll be setting things up around here, old-school-style, to have a little fun with CGI,
-            blogging, and figuring out what the Web can be at its best.
-        </div>
-        <div class="main">
-            <div class="highlights">
-                <b><a href="weblog.html">A Web Log</a></b>
-            </div>
-            <div class="highlights">
-                <b><a href="post-whyhomepg.html">Why this site?</a></b>
-            </div>
-        </div>
-        <center>
-            <i>Hosting for this site is provided by</i>
-            <p><a target=new href="http://sdf.org">
-                <img src="http://sdf.org/sdfbanner.png">
-                <p><b>The SDF Public Access UNIX System</b>
-            </a>
-        </center>
+          <div class="toolbar">
+            <button id="themeBtn" type="button">&#x25D0; Theme</button>
+          </div>
+
+          <article class="prose">
+
+            <p class="first">
+                Welcome! I'll be setting things up around here, old-school-style, to have a little fun with CGI,
+                blogging, and figuring out what the Web can be at its best.
+            </p>
+            <p> I'm focusing my posting on my <a href="https://geminiprotocol.net/">Gemini</a> Capsule (nothing to do with the AI), but you can check out its content in Web form (courtesy of my webloupe script):</p>
+            <p> <b><a href="cgi-bin/webloupe.cgi?index.gmi">Fabiozeh's capsule</a></b> </p>
+            
+            <h2> Posts </h2>
+            <p> &bull; <b><a href="cgi-bin/webloupe.cgi?2026-08-05.gmi">Scripting over sleeping</a></b> </p>
+            <p> &bull; <b><a href="post-whyhomepg.html">Why this site?</a></b> </p>
+            
+            <center>
+                <i>Hosting for this site is provided by</i>
+                <p><a target=new href="http://sdf.org">
+                    <img src="http://sdf.org/sdfbanner.png">
+                    <p><b>The SDF Public Access UNIX System</b>
+                </a>
+            </center>
+        </article>
+  <script>
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved) root.dataset.theme = saved;
+
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const isDark = root.dataset.theme === 'dark' ||
+        (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+      root.dataset.theme = isDark ? 'light' : 'dark';
+      localStorage.setItem('theme', root.dataset.theme);
+    });
+
+  </script>
+
     </body>
 </html>

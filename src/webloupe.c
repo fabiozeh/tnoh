@@ -11,10 +11,10 @@
 #define H1_TAG "<h1>"
 #define H2_TAG "<h2>"
 #define H3_TAG "<h3>"
-#define FIRST_P_TAG "<p class=\"first\">"
+#define FIRST_P_TAG "<p>"
 #define P_TAG  "<p>"
 #define ANCHOR_TAG u8"<br/><a href=\"%s\">🌐 %s</a>\n"
-#define PRE_TAG "<pre class=\"\">"
+#define PRE_TAG "<pre style=\"\">"
 #define BLOCKQUOTE_TAG "<blockquote>\n" 
 #define UL_TAG "<ul>\n"
 #define LI_TAG "<li>%s</li>\n"
@@ -189,6 +189,15 @@ void parse_link(char *line, char *href, char *content) {
     return;
 }
 
+void adjust_href(char *href) {
+    char buf[512] = "webloupe.cgi?";
+    /* If the link is relative, modify it to go through the script as well */
+    if (strstr(href, "://") == NULL) {
+        strcat(buf, href);
+        strcpy(href, buf);
+    }
+}
+
 void found_li() {
     if (st.blockquote_opened) {
         close_quote();
@@ -262,6 +271,7 @@ void parse(FILE *gemfile) {
             case LINK:
                 found_link();
                 parse_link(buf, href, cont);
+                adjust_href(href);
                 if (strlen(cont) == 0)
                     printf(ANCHOR_TAG, href, href);
                 else
@@ -296,7 +306,8 @@ int main() {
     print_HTTP_headers();
 
     // read query to obtain file name
-    char* filename = getenv("QUERY_STRING");
+    char filename[512] = "../../capsule/";
+    strcat(filename, getenv("QUERY_STRING"));
     FILE *gemfile = fopen(filename, "r");
 
     if (gemfile == NULL) {
