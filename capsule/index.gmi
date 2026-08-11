@@ -1,4 +1,4 @@
-#Technology and other Humanities
+# Technology and other Humanities
 ```
 a capsule by fabiozeh
               ___
@@ -30,9 +30,16 @@ a capsule by fabiozeh
 ____________________________________________________________________________________________________
 ```
 
-=>https://sdf.org/~fabiozeh While I set things up in this capsule, you can read the HTML version of my blog.
 
+### Gemlog
 
-###Microblog
+=> 2026-08-11.gmi 2026-08-11 ⤳ Sophomore Slump
+=> 2026-08-05.gmi 2026-08-05 ⤳ Scripting Over Sleeping
 
-=>2026-08-05.gmi August 8th, 2026 ⤳ Scripting Over Sleeping
+### Where to go from here
+
+I'm starting to write a (big) Web Home Page for the conversations I want to have in the more "conventional" digital spaces.
+=> https://sdf.org/~fabiozeh Fabiozeh's Home Page
+
+And if you'd like some link recommendations, check out my
+=> bookmarks.gmi Bookmarks

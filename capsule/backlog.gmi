@@ -14,4 +14,10 @@ So you found my backlog. This is where I (pretend to) keep control of the topics
 * "Oh no, Codeberg!" - The tragedy of minor disagreements
 * vim macros for writing
 * fog.cgi - a script to let me access private files in the SDF server
+* We need more slop - human slop
+    + A smaller scene is a "mid" scene (Barcelona vs. São Paulo)
+    + How my school friend got good at football
+    + Coubertin's vision
+    + Readymades and "do it yourself" punk
+    + Community erosions and the death of the 3rd space
 

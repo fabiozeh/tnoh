@@ -1,0 +1,21 @@
+# The Sophomore Slump
+
+In my experience, the hardest part about any activity is, by far, beginning it. The second most difficult part about anything, I'd say, is finishing a thing. Sure, if you abuse the nomenclature you might argue that whatever doesn't fit as "beginning" a thing, fits as "finishing" it, but you have done things before, you know what I mean.
+
+What I really want to discuss is the bronze medallist of generic difficulties: doing a second thing. Following up.
+
+I've always loved music very much, so, as a teenager I was soaking up knowledge about all sorts of musical genres and artists. It didn't take long for me to notice a pattern in the factory-inspired music production style of our "phonographic industry": I tended to like the first records the most. That didn't feel right to me. I expected people to learn from their craft as they went, or at least to be able to do more of what they had already done before. Pondering that question over the years taught me a lot. About aesthetics, about people, about life and its obstacles, about myself, and about, you know, thing... making.
+
+I'll say that my running hypothesis about my debut album preference primarily has to do with the fact that once an artist releases a record and comes out the other end, their life has changed, they have changed, and the music must change, too. The raw emotion of a reality likely much more similar to my own gives way to another, laden with new perspectives and (hopefully) maturity. Oh, one thing I should mention is that as I got older, I also learned to love the later works of certain artists. Kind of telling.
+
+But there is another phenomenon at play, which many others have observed and that became known as the "second record curse" or, more generically, the "Sophomore Slump". You can let Wikipedia tell you more about it [1], but the gist of the thing is that it's hard to follow in your own footsteps once the expectations rise. You might hate the attention like Kurt Cobain and J. D. Salinger. You might struggle to feel authentic, changing over and over like Björk, Bowie, or (early) Picasso, or you might call it style and border on plagiarizing yourself like AC/DC, Miró or (late) Picasso. And maybe you'll just settle for that one hit, like Harper Lee and the New Radicals.
+
+As soon as I uploaded my first post here I was hit with a feeling of "now what?". It's very easy to set goals, but it's hard to remember that satisfaction lives in the processes. Reiner Knizia has a really famous quote (about board games, but it works everywhere): "The goal is to win, but it is the goal that's important, not the winning."
+
+I've started reading Ed Catmull's "Creativity, Inc.", and he chooses to start the book exactly after Pixar's first major motion picture release (that's Toy Story, by the way). It would seem that, to him, the quintessential obstacle to creativity is precisely the Sophomore Slump. Unsurprisingly, the book's subtitle is "Overcoming the Unseen Forces That Stand in the Way of True Inspiration". I kinda hate subtitles and the fact that they are borderline mandatory in non-fiction.
+
+I don't know what I may get from the book. I'm not a company, despite what the legislation may say about contractors. My only advice to myself, so far, is: stick with it. (I like that it sounds so much worse than the Nike slogan.) Whatever it is that sparks joy needs a place in our lives, even Marie Kondo agrees. Goals be damned. And just like that I have a second post. Whatever slumps I hit, at least they'll be juniors, now.
+
+=> gemini://gemi.dev/cgi-bin/wp.cgi/view?sophomore%20slump [1] Sophomore Slump on Gemipedia (a gemini proxy)
+
+=> index.gmi Home
