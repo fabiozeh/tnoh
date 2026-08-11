@@ -17,3 +17,5 @@ I've started reading Ed Catmull's "Creativity, Inc.", and he chooses to start th
 I don't know what I may get from the book. I'm not a company, despite what the legislation may say about contractors. My only advice to myself, so far, is: stick with it. (I like that it sounds so much worse than the Nike slogan.) Whatever it is that sparks joy needs a place in our lives, even Marie Kondo agrees. Goals be damned. And just like that I have a second post. Whatever slumps I hit, at least they'll be juniors, now.
 
 => gemini://gemi.dev/cgi-bin/wp.cgi/view?sophomore%20slump [1] Sophomore Slump on Gemipedia (a gemini proxy)
+
+=> index.gmi Home
