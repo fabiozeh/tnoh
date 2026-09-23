@@ -5,12 +5,15 @@ So you found my backlog. This is where I (pretend to) keep control of the topics
 * About the art
 * Why this site? in .gmi
 * smolify.cgi - the opposite of webloupe.cgi, possibly in AWK this time for the sake of my sanity
-* Fix the html home styling
+* ✔️ Fix the html home styling
 * Not the world's last blogger after all
 * AIisms and thinking out loud
 * About me
-* Codeberg repo + GNU stow
+* X Codeberg repo + GNU stow
 * sharing dots
+* "Oh no, Codeberg!" - The tragedy of minor disagreements
+* vim macros for writing
+* fog.cgi - a script to let me access private files in the SDF server
 * We need more slop - human slop
     + A smaller scene is a "mid" scene (Barcelona vs. São Paulo)
     + How my school friend got good at football
