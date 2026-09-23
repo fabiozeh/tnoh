@@ -1,0 +1,14 @@
+```/bin/whoami```
+
+My name is Fábio José. Hello.
+
+I am a guy living in São Paulo, BR, with my wife and my dog.
+
+I work as a researcher in Computer Engineering, mostly applied Machine Learning. I teach, too, and it's my favourite part of my job.
+Probably the key thing about me is that I have many different interests. That's cool for talking about the unexpected and important intersections between them, and it's difficult to explain in grant applications. Academia likes their specialists.
+
+I have been interested in sharing my thoughts about our relationships with technology, and art, and communities. To be honest I couldn't be precise as to what I want to write about since I'm still new to this and I enjoy the chaotic process of letting creativity take the wheel.
+
+To mention some of those many interests, Music has always played a big role in my life, and I concern myself a lot with Political Theory, which pushes me towards learning History, Economics, and so on. I'm pretty keen on learning languages, too. The programming and the speaking kind.
+
+If you're reading this, I encourage you to reach out. There is a silent community waiting to come together just under the surface of these online corners. You can reach me by e-mail as fabiozeh at the domain that hosts this page.
